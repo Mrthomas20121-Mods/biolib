@@ -1,0 +1,15 @@
+[
+{
+  "modid": "biolib",
+  "name": "biolib",
+  "description": "Mrthomas20121 Modding Library",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Mrthomas20121"],
+  "credits": "Mrthomas20121",
+  "logoFile": "",
+  "screenshots": []
+}
+]
