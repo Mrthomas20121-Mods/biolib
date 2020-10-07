@@ -11,6 +11,4 @@ public interface ModuleBase {
     void init(FMLInitializationEvent e);
 
     void postInit(FMLPostInitializationEvent e);
-
-    void addArmorStats(MaterialBuilder material);
 }

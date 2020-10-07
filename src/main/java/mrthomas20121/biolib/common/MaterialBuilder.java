@@ -10,6 +10,7 @@ import slimeknights.tconstruct.library.materials.*;
 import slimeknights.tconstruct.library.traits.AbstractTrait;
 import slimeknights.tconstruct.library.traits.ITrait;
 
+@Deprecated
 public class MaterialBuilder 
 {
     private Material mat = null;

@@ -7,6 +7,8 @@ import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.library.smeltery.AlloyRecipe;
 
+import javax.annotation.Nullable;
+
 import static slimeknights.tconstruct.smeltery.TinkerSmeltery.*;
 
 public class SmelteryUtils {
@@ -75,10 +77,17 @@ public class SmelteryUtils {
             TinkerRegistry.registerBasinCasting(result, ItemStack.EMPTY, fluid, Material.VALUE_Ingot*4);
         }
     }
-    public static void registerMelting(String ore, Fluid fluid) {
-        registerIngotCasting(ore, fluid);
+    public static void addMelting(String ore, FluidStack fluidstack) {
+        TinkerRegistry.registerMelting(ore, fluidstack.getFluid(), fluidstack.amount);
     }
-    public static void registerDefaultMelting(String ore, Fluid fluid) {
+    public static void addMelting(ItemStack item, FluidStack fluidstack) {
+        TinkerRegistry.registerMelting(item, fluidstack.getFluid(), fluidstack.amount);
+    }
+    public static void addBasinCasing(ItemStack output, FluidStack fluidstack, @Nullable ItemStack input) {
+        TinkerRegistry.registerBasinCasting(output, input, fluidstack.getFluid(), fluidstack.amount);
+    }
+
+    public static void defaultMelting(String ore, Fluid fluid) {
         TinkerRegistry.registerMelting("ingot" + ore, fluid, Material.VALUE_Ingot);
         TinkerRegistry.registerMelting("dust" + ore, fluid, Material.VALUE_Ingot);
         TinkerRegistry.registerMelting("block" + ore, fluid, Material.VALUE_Block);

@@ -3,6 +3,7 @@ package mrthomas20121.biolib.common;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class OredictHelper {
@@ -33,6 +34,10 @@ public class OredictHelper {
     }
     public static boolean isOredictEmpty(String oredict) {
         return OreDictionary.getOres(oredict).isEmpty();
+    }
+    public static NonNullList<ItemStack> getItemstacksFromOre(String oredict)
+    {
+        return OreDictionary.getOres(oredict);
     }
     public static ItemStack getOre(String ore) {
         if(isOredictEmpty(ore)) {

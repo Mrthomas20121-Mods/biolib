@@ -1,4 +1,4 @@
-package mrthomas20121.biolib.block;
+package mrthomas20121.biolib.objects.block;
 
 import net.minecraft.block.BlockGlass;
 import net.minecraft.block.material.Material;

@@ -1,14 +1,16 @@
 package mrthomas20121.biolib.util;
 
-import com.google.common.collect.ImmutableCollection;
 import net.minecraft.item.ItemStack;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.Material;
+import slimeknights.tconstruct.library.traits.ITrait;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Utils {
+public class Utils
+{
+
     public static void addRepairMaterial(Material material, ItemStack stack, int cost)
     {
         material.addItem(stack, cost, cost);
@@ -20,6 +22,11 @@ public class Utils {
     public static Material getMaterial(String name)
     {
         return TinkerRegistry.getMaterial(name);
+    }
+
+    public static ITrait getTrait(String name)
+    {
+        return TinkerRegistry.getTrait(name);
     }
 
     /**
