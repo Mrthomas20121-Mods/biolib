@@ -1,6 +1,7 @@
 package mrthomas20121.biolib.objects.material;
 
 import mrthomas20121.biolib.objects.fluids.FluidWrapper;
+import net.minecraft.item.ItemStack;
 import org.apache.commons.lang3.StringUtils;
 import slimeknights.tconstruct.library.MaterialIntegration;
 import slimeknights.tconstruct.library.TinkerRegistry;
@@ -14,26 +15,23 @@ public class MaterialWrapper {
     private final FluidWrapper fluidWrapper;
     private final Material material;
     private String oredict;
+    private String prefix;
 
-    public MaterialWrapper(Material material, @Nullable String oredict, int temp)
+    public MaterialWrapper(Material material)
     {
         this.material = material;
-        this.fluidWrapper = new FluidWrapper(material.identifier, material.materialTextColor);
-        this.fluidWrapper.setTemp(temp);
-        this.oredict = oredict;
+        this.fluidWrapper = new FluidWrapper(material.identifier.replace("ref_", ""), material.materialTextColor);
+        this.setOredict();
     }
 
-    public MaterialWrapper(String prefix, String materialName, int color, int temp)
+    public MaterialWrapper(String prefix, String materialName, int color)
     {
-        this.material = new Material(prefix+materialName, color);
-        this.fluidWrapper = new FluidWrapper(material.identifier, material.materialTextColor);
-        this.fluidWrapper.setTemp(temp);
-        this.oredict = StringUtils.capitalize(materialName);
+        this(new Material(prefix+materialName, color));
     }
 
-    public MaterialWrapper(String prefix, String materialName, int color, @Nullable String oredict)
+    public void setTemp(int temp)
     {
-        this(new Material(prefix+materialName, color), oredict, 0);
+        this.fluidWrapper.setTemp(temp);
     }
 
     public Material getMaterial() {
@@ -48,6 +46,12 @@ public class MaterialWrapper {
         this.oredict = oredict;
     }
 
+    public void setOredict()
+    {
+        String str = this.material.getIdentifier().replace("ref_", "");
+        this.oredict = cap(str);
+    }
+
     public String getOredict() {
         return oredict;
     }
@@ -60,6 +64,21 @@ public class MaterialWrapper {
     {
         this.material.setCraftable(!mode);
         this.material.setCastable(mode);
+    }
+    public void addItems(String ore)
+    {
+        this.material.addItem(ore, 1, Material.VALUE_Ingot);
+        this.material.setRepresentativeItem(ore);
+    }
+    public void addItems(ItemStack stack)
+    {
+        this.material.addItem(stack, 1, Material.VALUE_Ingot);
+        this.material.setRepresentativeItem(stack);
+    }
+    public void addWood(ItemStack planks, ItemStack log)
+    {
+        this.addItems(planks);
+        this.material.addItem(log, 1, Material.VALUE_Ingot * 4);
     }
 
     public void addTrait(ITrait materialTrait, String dependency)
@@ -88,6 +107,7 @@ public class MaterialWrapper {
         this.fluidWrapper.registerFluid();
         this.material.setFluid(this.fluidWrapper.getFluid());
         this.addCommonModdedItems();
+        this.material.setRepresentativeItem("ingot"+oredict);
         materialStats.registerStats(this.material);
         TinkerRegistry.integrate(new MaterialIntegration(material, this.fluidWrapper.getFluid(), oredict).setRepresentativeItem(this.oredict)).preInit();
     }
@@ -98,8 +118,13 @@ public class MaterialWrapper {
      */
     public void createGemMaterial(MaterialStats materialStats)
     {
-        this.material.addItem("gem"+oredict, 1, Material.VALUE_Ingot);
-        this.createMaterial(materialStats);
+        this.setMode(true);
+        this.fluidWrapper.registerFluid();
+        this.material.setFluid(this.fluidWrapper.getFluid());
+        this.addCommonModdedItems();
+        this.addItems("gem"+oredict);
+        materialStats.registerStats(this.material);
+        TinkerRegistry.integrate(new MaterialIntegration(material, this.fluidWrapper.getFluid(), oredict).setRepresentativeItem(this.oredict)).preInit();
     }
 
     /**
@@ -112,14 +137,40 @@ public class MaterialWrapper {
         this.material.setCastable(false);
         this.material.setCraftable(false);
         this.addCommonModdedItems();
-        this.material.setRepresentativeItem(ore+oredict);
+        this.addItems(ore+oredict);
         materialStats.registerStats(this.material);
         TinkerRegistry.integrate(new MaterialIntegration(material, null, oredict).setRepresentativeItem(this.oredict)).preInit();
     }
 
+    public void createWoodMaterial(MaterialStats materialStats)
+    {
+        this.material.setCastable(false);
+        this.material.setCraftable(true);
+        materialStats.registerStats(this.material);
+        TinkerRegistry.integrate(new MaterialIntegration(material)).preInit();
+    }
+    public void createOtherMaterial(MaterialStats materialStats, String oredict)
+    {
+        this.addItems(oredict);
+        createWoodMaterial(materialStats);
+    }
+
+/**
+ * setup and register a material that doesn't have a fluid
+ * @param materialStats Stats for that material
+ */
     public void createIngotMaterial(MaterialStats materialStats)
     {
         this.createMaterial(materialStats, "ingot");
-        this.setMode(true);
+    }
+
+    private String cap(String str)
+    {
+        String[] array = str.split("_");
+        StringBuilder s = new StringBuilder();
+        for(String string: array) {
+            s.append(StringUtils.capitalize(string));
+        }
+        return s.toString();
     }
 }

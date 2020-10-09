@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 public class biolib {
     public static final String MODID = "biolib";
     public static final String NAME = "Bio Library";
-    public static final String VERSION = "1.1.0";
+    public static final String VERSION = "1.1.1";
 
     public static Logger logger;
 
