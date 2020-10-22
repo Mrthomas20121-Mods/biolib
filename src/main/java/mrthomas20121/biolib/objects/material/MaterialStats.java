@@ -19,27 +19,27 @@ public class MaterialStats {
 
     public void registerStats(Material material)
     {
-        if(isNotNull(headMaterialStats) && isNotNull(handleMaterialStats) && isNotNull(extraMaterialStats))
+        if(!isNotNull(headMaterialStats) && !isNotNull(handleMaterialStats) && !isNotNull(extraMaterialStats))
         {
             TinkerRegistry.addMaterialStats(material, headMaterialStats, handleMaterialStats, extraMaterialStats);
         }
-        if(isNotNull(bowMaterialStats))
+        if(!isNotNull(bowMaterialStats))
         {
             TinkerRegistry.addMaterialStats(material, bowMaterialStats);
         }
-        if(isNotNull(bowStringMaterialStats))
+        if(!isNotNull(bowStringMaterialStats))
         {
             TinkerRegistry.addMaterialStats(material, bowStringMaterialStats);
         }
-        if(isNotNull(arrowShaftMaterialStats))
+        if(!isNotNull(arrowShaftMaterialStats))
         {
             TinkerRegistry.addMaterialStats(material, arrowShaftMaterialStats);
         }
     }
 
-    private boolean isNotNull(Object stats)
+    private boolean isNotNull(IMaterialStats stats)
     {
-        return stats != null;
+        return stats == null;
     }
 
     public void setHeadMaterialStats(HeadMaterialStats headMaterialStats) {

@@ -36,9 +36,9 @@ public class FluidWrapper {
 
     public void registerFluid()
     {
-        boolean check = FluidRegistry.registerFluid(this.fluid);
-        if(check)
+        if(!FluidRegistry.isFluidRegistered(this.fluid.getName()))
         {
+            FluidRegistry.registerFluid(this.fluid);
             FluidRegistry.addBucketForFluid(this.fluid);
         }
         else

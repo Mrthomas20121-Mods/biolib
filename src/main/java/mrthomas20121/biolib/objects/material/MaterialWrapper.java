@@ -2,6 +2,7 @@ package mrthomas20121.biolib.objects.material;
 
 import mrthomas20121.biolib.objects.fluids.FluidWrapper;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidRegistry;
 import org.apache.commons.lang3.StringUtils;
 import slimeknights.tconstruct.library.MaterialIntegration;
 import slimeknights.tconstruct.library.TinkerRegistry;
@@ -16,17 +17,22 @@ public class MaterialWrapper {
     private final Material material;
     private String oredict;
     private String prefix;
+    private String materialName;
 
-    public MaterialWrapper(Material material)
+    public MaterialWrapper(Material material, String materialName)
     {
         this.material = material;
-        this.fluidWrapper = new FluidWrapper(material.identifier.replace("ref_", ""), material.materialTextColor);
+        this.fluidWrapper = new FluidWrapper(materialName, material.materialTextColor);
         this.setOredict();
     }
 
     public MaterialWrapper(String prefix, String materialName, int color)
     {
-        this(new Material(prefix+materialName, color));
+        this.material = new Material(prefix+materialName, color);
+        this.fluidWrapper = new FluidWrapper(materialName, color);
+        this.prefix = prefix;
+        this.materialName = materialName;
+        this.setOredict();
     }
 
     public void setTemp(int temp)
@@ -39,7 +45,7 @@ public class MaterialWrapper {
     }
 
     public FluidWrapper getFluidWrapper() {
-        return fluidWrapper;
+        return this.fluidWrapper;
     }
 
     public void setOredict(String oredict) {
@@ -48,12 +54,20 @@ public class MaterialWrapper {
 
     public void setOredict()
     {
-        String str = this.material.getIdentifier().replace("ref_", "");
-        this.oredict = cap(str);
+        this.oredict = cap(this.materialName);
     }
 
     public String getOredict() {
-        return oredict;
+        return this.oredict;
+    }
+
+
+    public String getPrefix() {
+        return this.prefix;
+    }
+
+    public String getMaterialName() {
+        return this.materialName;
     }
 
     /**
@@ -65,6 +79,12 @@ public class MaterialWrapper {
         this.material.setCraftable(!mode);
         this.material.setCastable(mode);
     }
+
+    public void addItem(ItemStack stack, int worth)
+    {
+        this.material.addItem(stack, 1, worth);
+    }
+
     public void addItems(String ore)
     {
         this.material.addItem(ore, 1, Material.VALUE_Ingot);
@@ -109,22 +129,8 @@ public class MaterialWrapper {
         this.addCommonModdedItems();
         this.material.setRepresentativeItem("ingot"+oredict);
         materialStats.registerStats(this.material);
-        TinkerRegistry.integrate(new MaterialIntegration(material, this.fluidWrapper.getFluid(), oredict).setRepresentativeItem(this.oredict)).preInit();
-    }
-
-    /**
-     * setup and register a gem material(a meterial that have a gem form, e.g sapphire, ruby)
-     * @param materialStats Stats for that material
-     */
-    public void createGemMaterial(MaterialStats materialStats)
-    {
-        this.setMode(true);
-        this.fluidWrapper.registerFluid();
-        this.material.setFluid(this.fluidWrapper.getFluid());
-        this.addCommonModdedItems();
-        this.addItems("gem"+oredict);
-        materialStats.registerStats(this.material);
-        TinkerRegistry.integrate(new MaterialIntegration(material, this.fluidWrapper.getFluid(), oredict).setRepresentativeItem(this.oredict)).preInit();
+        MaterialIntegration integration = new MaterialIntegration(material, FluidRegistry.getFluid(this.fluidWrapper.getFluid().getName()), oredict);
+        TinkerRegistry.integrate(integration).toolforge().preInit();
     }
 
     /**
@@ -139,20 +145,39 @@ public class MaterialWrapper {
         this.addCommonModdedItems();
         this.addItems(ore+oredict);
         materialStats.registerStats(this.material);
-        TinkerRegistry.integrate(new MaterialIntegration(material, null, oredict).setRepresentativeItem(this.oredict)).preInit();
+
+        MaterialIntegration integration = new MaterialIntegration(material);
+        TinkerRegistry.integrate(integration).toolforge().preInit();
     }
 
+    /**
+     * setup and register a gem material(a meterial that have a gem form, e.g sapphire, ruby)
+     * @param materialStats Stats for that material
+     */
+    public void createGemMaterial(MaterialStats materialStats)
+    {
+        this.setMode(true);
+        this.fluidWrapper.registerFluid();
+        this.material.setFluid(FluidRegistry.getFluid(this.fluidWrapper.getFluid().getName()));
+        this.addCommonModdedItems();
+        this.addItems("gem"+oredict);
+        materialStats.registerStats(this.material);
+
+        MaterialIntegration materialIntegration = new MaterialIntegration("gem"+oredict, material, FluidRegistry.getFluid(this.fluidWrapper.getFluid().getName()), oredict);
+        materialIntegration.setRepresentativeItem("gem"+oredict);
+        TinkerRegistry.integrate(materialIntegration).toolforge().preInit();
+    }
     public void createWoodMaterial(MaterialStats materialStats)
     {
         this.material.setCastable(false);
         this.material.setCraftable(true);
+        TinkerRegistry.addMaterial(this.material);
         materialStats.registerStats(this.material);
-        TinkerRegistry.integrate(new MaterialIntegration(material)).preInit();
     }
     public void createOtherMaterial(MaterialStats materialStats, String oredict)
     {
-        this.addItems(oredict);
         createWoodMaterial(materialStats);
+        this.addItems(oredict);
     }
 
 /**
@@ -162,6 +187,7 @@ public class MaterialWrapper {
     public void createIngotMaterial(MaterialStats materialStats)
     {
         this.createMaterial(materialStats, "ingot");
+        this.material.setCastable(false).setCraftable(false);
     }
 
     private String cap(String str)
