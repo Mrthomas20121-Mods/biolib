@@ -11,11 +11,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BlockGlassCustom extends BlockGlass {
     public BlockGlassCustom(String modid, String name) {
         super(Material.GLASS, false);
-        this.setRegistryName(modid, name+"_glass");
-        this.setTranslationKey(modid + "." + name+"_glass");
-        this.setHardness(3);
-        this.setResistance(50);
-        this.setHarvestLevel("pickaxe", 3);
+        this.setRegistryName(modid, name);
+        this.setTranslationKey(modid + "." + name);
     }
     @SideOnly(Side.CLIENT)
     public void initModels() {

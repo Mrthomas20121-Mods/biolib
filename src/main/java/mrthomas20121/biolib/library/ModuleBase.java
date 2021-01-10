@@ -1,4 +1,4 @@
-package mrthomas20121.biolib.common;
+package mrthomas20121.biolib.library;
 
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
