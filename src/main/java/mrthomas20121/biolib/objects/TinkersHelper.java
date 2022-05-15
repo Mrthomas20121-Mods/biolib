@@ -1,4 +1,4 @@
-package mrthomas20121.biolib.util;
+package mrthomas20121.biolib.objects;
 
 import net.minecraft.item.ItemStack;
 import slimeknights.tconstruct.library.TinkerRegistry;
@@ -8,7 +8,7 @@ import slimeknights.tconstruct.library.traits.ITrait;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Utils
+public class TinkersHelper
 {
 
     public static void addRepairMaterial(Material material, ItemStack stack, int cost)
@@ -40,10 +40,7 @@ public class Utils
     public static ArrayList<String> getMaterialNames()
     {
         ArrayList<String> names = new ArrayList<>();
-        for(Material material : getMaterials())
-        {
-            names.add(material.getIdentifier());
-        }
+        getMaterials().forEach(material -> names.add(material.identifier));
         return names;
     }
 }
