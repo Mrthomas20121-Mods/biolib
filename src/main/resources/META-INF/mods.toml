@@ -1,0 +1,33 @@
+modLoader = "javafml"
+loaderVersion = "[40,)"
+license = "MIT License"
+issueTrackerURL = "https://github.com/Mrthomas20121/biolib/issues"
+
+[[mods]]
+modId = "biolib"
+version = "1.0.0"
+displayName = "Bio Library"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/biolib"
+#logoFile="biolib_logo.png"
+authors = "Mrthomas20121"
+description = '''
+My Modding Library
+'''
+
+[[dependencies.biolib]] #optional
+    # the modid of the dependency
+    modId="forge" #mandatory
+    # Does this dependency have to exist - if not, ordering below must be specified
+    mandatory=true #mandatory
+    # The version range of the dependency
+    versionRange="[40,)" #mandatory
+    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
+    ordering="NONE"
+    # Side this dependency is applied on - BOTH, CLIENT or SERVER
+    side="BOTH"
+[[dependencies.biolib]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.18.2,1.19)"
+    ordering="NONE"
+    side="BOTH"
