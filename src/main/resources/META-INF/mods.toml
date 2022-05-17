@@ -5,7 +5,7 @@ issueTrackerURL = "https://github.com/Mrthomas20121/biolib/issues"
 
 [[mods]]
 modId = "biolib"
-version = "1.0.0"
+version = "1.0.1"
 displayName = "Bio Library"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/biolib"
 #logoFile="biolib_logo.png"
