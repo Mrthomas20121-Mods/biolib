@@ -1,2 +1,2 @@
 # Biolib
-Biolib is a minecraft modding library made for Tinker's Construct addons
+Biolib is my minecraft modding library. it's just there to make things easier for me.
