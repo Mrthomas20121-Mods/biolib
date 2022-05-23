@@ -1,6 +1,7 @@
 package mrthomas20121.biolib.item.armor;
 
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorMaterial;
@@ -22,7 +23,7 @@ public class BioArmorMaterial implements ArmorMaterial {
     private final float knockbackResistance;
     private final Lazy<Ingredient> repairIngredient;
 
-    private BioArmorMaterial(String name, int durabilityMultiplier, int[] slotProtections, int enchantementValue, SoundEvent event, float toughness, float kbResist, Supplier<Ingredient> item) {
+    public BioArmorMaterial(String name, int durabilityMultiplier, int[] slotProtections, int enchantementValue, SoundEvent event, float toughness, float kbResist, Supplier<Ingredient> item) {
         this.name = name;
         this.durabilityMultiplier = durabilityMultiplier;
         this.slotProtections = slotProtections;
@@ -33,9 +34,20 @@ public class BioArmorMaterial implements ArmorMaterial {
         this.repairIngredient = Lazy.of(item);
     }
 
+    public BioArmorMaterial(String name, int durabilityMultiplier, int[] slotProtections, int enchantementValue, float toughness, float kbResist, Supplier<Ingredient> item) {
+        this.name = name;
+        this.durabilityMultiplier = durabilityMultiplier;
+        this.slotProtections = slotProtections;
+        this.enchantmentValue = enchantementValue;
+        this.sound = SoundEvents.ARMOR_EQUIP_IRON;
+        this.toughness = toughness;
+        this.knockbackResistance = kbResist;
+        this.repairIngredient = Lazy.of(item);
+    }
+
     @Override
-    public int getDurabilityForSlot(EquipmentSlot p_40484_) {
-        return HEALTH_PER_SLOT[p_40484_.getIndex()] * this.durabilityMultiplier;
+    public int getDurabilityForSlot(EquipmentSlot slot) {
+        return HEALTH_PER_SLOT[slot.getIndex()] * this.durabilityMultiplier;
     }
 
     @Override

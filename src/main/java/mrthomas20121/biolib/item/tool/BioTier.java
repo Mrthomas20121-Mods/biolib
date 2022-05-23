@@ -16,7 +16,7 @@ public class BioTier implements Tier {
     private final int enchantmentValue;
     private final Lazy<Ingredient> repairIngredient;
 
-    private BioTier(int level, int durability, float speed, float damage, int enchantValue, Supplier<Ingredient> item) {
+    public BioTier(int level, int durability, float speed, float damage, int enchantValue, Supplier<Ingredient> item) {
         this.level = level;
         this.uses = durability;
         this.speed = speed;
