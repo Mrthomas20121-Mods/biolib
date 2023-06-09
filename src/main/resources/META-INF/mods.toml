@@ -5,13 +5,13 @@ issueTrackerURL = "https://github.com/Mrthomas20121/biolib/issues"
 
 [[mods]]
 modId = "biolib"
-version = "1.0.3"
+version = "2.0.0"
 displayName = "Bio Library"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/biolib"
 #logoFile="biolib_logo.png"
 authors = "Mrthomas20121"
 description = '''
-My Modding Library
+Library mod used by mrthomas20121 mods
 '''
 
 [[dependencies.biolib]] #optional
@@ -28,6 +28,6 @@ My Modding Library
 [[dependencies.biolib]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.18.2,1.19)"
+    versionRange="[1.19.4,)"
     ordering="NONE"
     side="BOTH"

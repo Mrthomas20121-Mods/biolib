@@ -23,12 +23,12 @@ apply plugin: 'eclipse'
 
 version = mod_version
 group = 'mrthomas20121.biolib'
-archivesBaseName = 'Bio Library 1.18.2'
+archivesBaseName = "Bio Library ${mc_version}"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
-    mappings channel: 'official', version: '1.18.2'
+    mappings channel: 'official', version: mc_version
 
     runs {
         client {
@@ -75,7 +75,7 @@ minecraft {
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
-            args '--mod', 'biolib', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/'), '--existing-mod', 'tconstruct'
+            args '--mod', 'biolib', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
                 biolib {
@@ -99,12 +99,8 @@ repositories {
         url "https://maven.theillusivec4.top/"
     }
     maven {
-        name 'crafttweaker'
-        url 'https://maven.blamejared.com'
-    }
-    maven {
         name 'cursemaven'
-        url "https://cfa2.cursemaven.com"
+        url "https://cursemaven.com"
         content {
             includeGroup "curse.maven"
         }
@@ -112,16 +108,13 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.1.19'
-
-    compileOnly fg.deobf("mezz.jei:jei-1.18.2:9.5.5.174:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.5.5.174")
+    minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 }
 
 jar {
     manifest {
         attributes([
-            "Specification-Title": "TFCTinkers",
+            "Specification-Title": "Bio Library",
             "Specification-Vendor": "Mrthomas20121",
             "Specification-Version": "1",
             "Implementation-Title": project.name,
